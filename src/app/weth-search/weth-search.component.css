@@ -1,0 +1,98 @@
+/* @import url('https://unpkg.com/bootstrap@3.3.7/dist/css/bootstrap.min.css'); */
+
+
+
+#searchForm{
+    color: white;
+}
+
+.material-icons{
+    font-size: 20px
+}
+
+.warnNotSet{
+    color: #b30404;
+}
+
+#searchFromContainer{
+    background-color: #6e91aa;
+    border: solid 1px black;
+    box-shadow: 5px 5px #0000006b;
+    margin-top: 100px;
+    /* margin-left: auto;
+    margin-right: auto; */
+    padding: 50px;
+}
+
+#tabsContainer{
+    margin: 5% auto 0px auto;
+    float: inherit;
+}
+
+#weatherCardContainer{
+    color: black;
+    margin: 0px auto;
+}
+
+#weatherCard{
+    background: #a5d0ee;
+    border: solid 1px black;
+    border-radius: 5px;
+}
+
+.table-striped > tbody > tr:nth-child(odd) > td {
+    background-color: #6d90a9;
+}
+
+.table-striped > tbody > tr:nth-child(even) > td {
+    background-color: #a3ceec;
+}
+
+.tblImg{
+    height: 25%;
+}
+
+.iconDiv{
+    background-color: white;
+    color: gold;
+    width: fit-content;
+    height: fit-content;
+    width: -moz-fit-content;
+    height: -moz-fit-content;
+    width: -webkit-fit-content;
+    height: -webkit-fit-content;
+    border-radius: 4px;
+    margin: 0 auto
+}
+
+td img{
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.btnSelected{
+    background-color: #6d90a9;
+    border-color:black;
+    color:white;
+}
+
+.btnUnSelected{
+    background-color: white;
+    border-color:black;
+    color:grey;
+}
+
+.btn{
+    margin-right: 1%
+}
+
+.modal-header{
+    background-color: #6592ad;
+}
+
+.modal-body{
+    background-color: #9cd1f1;
+    padding: 5%
+}
+

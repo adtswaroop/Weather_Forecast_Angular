@@ -1,0 +1,379 @@
+<div class="row">
+    <div class='col-md-3 col-sm-3'></div>
+    <div id="searchFromContainer" class="col-md-6 col-sm-6 mx-auto">
+        <h2 style="text-align: center; color: white; margin-bottom:5%;">Weather Search</h2>
+        <form name="searchForm" class="col-md-12 col-sm-12" (ngSubmit)='progressBar()' #searchForm = 'ngForm'>
+            <div class="form-group row" style="color:white">
+                <label for="inpStreet" class="col-sm-2 col-form-label">Street<i style="color:#b30404">*</i></label>
+                <div class="col-sm-10">
+                  <input  type="text"  
+                          class="form-control" 
+                          id="inpStreet" 
+                          name="street"
+                          placeholder="Enter Street Name" 
+                          (focusout) = 'checkStreet(this)'
+                          required 
+                          [(ngModel)] = 'addrInput.street'
+                          #street = 'ngModel'
+                          [disabled] = "addrInput.currentLocationChecked ? true : false">
+                          <small name = 'isSetStreet' class="warnNotSet" [(ngModel)] = 'addrInput.isSetStreet' *ngIf='!this.addrInput.isSetStreet'><b>Please enter street</b></small>
+                </div>
+              </div> 
+              <div class="form-group row" style="color:white">
+                  <label for="inpCity" class="col-sm-2 col-form-label">City<i style="color:#b30404">*</i></label>
+                  <div class="col-sm-10">
+                    <input  type="text" 
+                            matInput
+                            [matAutocomplete]="auto"
+                            (keyup)="autocompleteHelper()"
+                            class="form-control" 
+                            id="inpCity" 
+                            name="city"
+                            placeholder="Enter City Name"
+                            (focusout) = 'checkCity(this)'
+                            required
+                            [(ngModel)] =  "addrInput.currentLocationChecked ? (addrInput.isSetCity ? addrInput.city : '') : addrInput.city"
+                            #city = 'ngModel'
+                            [disabled] = "addrInput.currentLocationChecked ? true : false">
+                            <small name='isSetCity' class="warnNotSet" [(ngModel)] = 'addrInput.isSetCity' *ngIf='!this.addrInput.isSetCity'><b>Please enter city</b></small>
+                  </div>
+                  <mat-autocomplete #auto="matAutocomplete">
+                   <mat-option *ngFor="let option of autocompleteOptions" [value]="option">{{option}}</mat-option>
+                  </mat-autocomplete>
+              </div>
+              <div class="form-group row" style="color:white">
+                    <label for="inpState" class="col-sm-2 col-form-label">State<i style="color:#b30404">*</i></label>
+                    <div class="col-sm-10"> 
+                        <select class="custom-select"
+                                name="state"
+                                required
+                                (change) = 'checkState(this)'
+                                [(ngModel)] = 'addrInput.state'
+                                #state = 'ngModel'
+                                [disabled] = "addrInput.currentLocationChecked ? true : false">
+                                <option value="nostate">                Select State </option>
+                                <option value="AL:Alabama             ">Alabama </option>
+                                <option value="AK:Alaska              ">Alaska </option>
+                                <option value="AZ:Arizona             ">Arizona </option>
+                                <option value="AR:Arkansas            ">Arkansas </option>
+                                <option value="CA:California          ">California </option>
+                                <option value="CO:Colorado            ">Colorado </option>
+                                <option value="CT:Connecticut         ">Connecticut </option>
+                                <option value="DE:Delaware            ">Delaware </option>
+                                <option value="DC:District Of Columbia">District Of Columbia </option>
+                                <option value="FL:Florida             ">Florida </option>
+                                <option value="GA:Georgia             ">Georgia </option>
+                                <option value="HI:Hawaii              ">Hawaii </option>
+                                <option value="ID:Idaho               ">Idaho </option>
+                                <option value="IL:Illinois            ">Illinois </option>
+                                <option value="IN:Indiana             ">Indiana </option>
+                                <option value="IA:Iowa                ">Iowa </option>
+                                <option value="KS:Kansas              ">Kansas </option>
+                                <option value="KY:Kentucky            ">Kentucky </option>
+                                <option value="LA:Louisiana           ">Louisiana </option>
+                                <option value="ME:Maine               ">Maine </option>
+                                <option value="MD:Maryland            ">Maryland </option>
+                                <option value="MA:Massachusetts       ">Massachusetts </option>
+                                <option value="MI:Michigan            ">Michigan </option>
+                                <option value="MN:Minnesota           ">Minnesota </option>
+                                <option value="MS:Mississippi         ">Mississippi </option>
+                                <option value="MO:Missouri            ">Missouri </option>
+                                <option value="MT:Montana             ">Montana </option>
+                                <option value="NE:Nebraska            ">Nebraska </option>
+                                <option value="NV:Nevada              ">Nevada </option>
+                                <option value="NH:New Hampshire       ">New Hampshire </option>
+                                <option value="NJ:New Jersey          ">New Jersey </option>
+                                <option value="NM:New Mexico          ">New Mexico </option>
+                                <option value="NY:New York            ">New York </option>
+                                <option value="NC:North Carolina      ">North Carolina </option>
+                                <option value="ND:North Dakota        ">North Dakota </option>
+                                <option value="OH:Ohio                ">Ohio </option>
+                                <option value="OK:Oklahoma            ">Oklahoma </option>
+                                <option value="OR:Oregon              ">Oregon </option>
+                                <option value="PA:Pennsylvania        ">Pennsylvania </option>
+                                <option value="RI:Rhode Island        ">Rhode Island </option>
+                                <option value="SC:South Carolina      ">South Carolina </option>
+                                <option value="SD:South Dakota        ">South Dakota </option>
+                                <option value="TN:Tennessee           ">Tennessee </option>
+                                <option value="TX:Texas               ">Texas </option>
+                                <option value="UT:Utah                ">Utah </option>
+                                <option value="VT:Vermont             ">Vermont </option>
+                                <option value="VA:Virginia            ">Virginia </option>
+                                <option value="WA:Washington          ">Washington </option>
+                                <option value="WV:West Virginia       ">West Virginia </option>
+                                <option value="WI:Wisconsin           ">Wisconsin </option>
+                                <option value="WY:Wyoming             ">Wyoming </option>
+                        </select>
+                        <!-- <small name='isSetState' class="warnNotSet" [(ngModel)] = 'addrInput.isSetState' *ngIf='!this.addrInput.isSetState' #isSetStreet = 'ngModel'><b>Please select state</b></small> -->
+                    </div>
+                </div>
+                <div class="form-group row custom-control" style="color:white">
+                    <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="inpCurrLoc" data-md-icheck (change)="getCurrLocation()" style="margin:2%">
+                        <label class="custom-control-label" for="inpCurrLoc">Current Location</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <button class="btn col-md-2" type="submit" [disabled] = "enableSubmit ? false : true"><i class="material-icons">search</i>  Submit</button>
+                    <button class="btn ml-2 col-md-2" type="button" (click) = "clearButton()"><i class="material-icons">clear_all</i>   Clear</button>
+                </div>
+        </form>
+    </div>
+</div>
+<div class="row text-center" style="padding:2%" >
+   <button [className]="this.sectionShow == 'results' ? 'btn btnSelected' : 'btn btnUnSelected' " (click)="toggleSection('results')">Results</button>
+   <button [className]="this.sectionShow == 'favorites' ? 'btn btnSelected' : 'btn btnUnSelected'" (click)="toggleSection('favorites')">Favorites</button>
+</div>
+<div class="row" [class.hidden]="this.progressBarShow ? false : true">
+    <div class="col-md-4 col-sm-4"></div>
+    <div class="col-md-4 col-sm-4" >
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped active" role="progressbar" id="progressBarBar"
+    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:30%">   
+    </div>
+  </div>
+</div>
+  <div class="col-md-4 col-sm-4"></div>
+</div>
+<div class="row" *ngIf="this.hasError">
+  <div class="col-md-4 col-sm-4"></div>
+  <div class="alert alert-warning col-md-4 col-md-4" style="text-align:center">Invalid Address</div>
+  <div class="col-md-4 col-sm-4"></div>
+</div>
+<!-- <div id="icons" class="col-md-7">
+    <div class="funcIcon" (click)= "this.favoritesStarClicked()">
+        <i class="material-icons">star_border</i>
+    </div>
+    <div class="funcIcon">
+        <a class="twitter-share-button"
+        href="{{twitterText}}"
+        id="twitter"
+        target="_blank">
+        <img src="http://png.pngtree.com/png-clipart/20190613/original/pngtree-twitter-icon-png-image_3584839.jpg" style="height: 20px;">
+     </a>
+    </div>
+</div> -->
+<div class="row"> 
+    <div class="col-md-7 col-sm-7 mx-auto" id="tabsContainer" *ngIf="this.sectionShow=='results' &&  this.formSubumitted==true">
+            <tabs-holder class="col-md-10 col-sm-10" (click) = "dailygraph()">
+                <tab [tabTitle]="'Current'">
+                    <div class='row'>
+                    <div class="col-md-2 col-sm-2 col-2"></div> <!--to align to the center-->
+                    <div class="col-md-9 col-sm-9 col-9" id="weatherCardContainer" text-center>
+                            <div id="weatherCard">
+                              <div class="row" style="padding:6%">
+                                  <div class="table-responsive" style="border:none">
+                                      <table class='table'>
+                                      <tr>
+                                       <td style="font-size:2vw; display: table; margin-bottom: 2%;">
+                                         {{addrInput.city}}
+                                         <!-- Los Angeles -->
+                                       </td>
+                                       <td rowspan = 4>
+                                        <img src="{{weatherCardObj.sealLink}}" class="img-responsive" style="height:150px">
+                                        <!-- <img class="img-responsive" src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Seal_of_California.svg/250px-Seal_of_California.svg.png' style="height:150px"> -->
+                                        
+                                      <td>
+                                     </tr>
+                                     <tr>
+                                      <td style="font-size:1.5vw; display: table; margin-bottom: 4%; color:#364e4f">
+                                        {{weatherCardObj.crdTimezone}}
+                                        <!-- America/Los Angeles -->
+                                      </td>
+                                      </tr>
+                                      <tr>
+                                        <td style="font-size:3vw; display: table; margin-bottom: 5%;;">
+                                          {{weatherCardObj.crdTemperature}}
+                                          <!-- 68.83 -->
+                                            <sup style="font-size:30px; color:black">&deg;</sup>
+                                            <span>F</span>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td style="font-size:1.2vw">
+                                          {{weatherCardObj.crdSummary}}
+                                          <!-- Partly Cloud Light Percipitation -->
+                                       </td>
+                                    </tr>
+                                  </table>
+                                  </div>
+                              </div>
+                             
+                              <div class="row">
+                                  <div class="table-responsive" style="border:none">
+                                      <table class="table" style="table-layout: fixed; text-align: center;">
+                                              <tr>
+                                                <td>
+                                                  <img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-16-512.png" width="25px" title="Humidity">
+                                                </td>
+                                                <td>
+                                                  <img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-25-512.png" width="25px" title="Pressure">
+                                                </td>
+                                                <td>
+                                                  <img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-27-512.png" width="25px" title="Wind Speed">
+                                                </td>
+                                                <td>
+                                                  <img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-30-512.png" width="25px" title="Visibility">
+                                                </td>
+                                                <td>
+                                                  <img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-28-512.png" width="25px" title="Cloud Cover">
+                                                </td>
+                                                <td>
+                                                  <img src="https://cdn2.iconfinder.com/data/icons/weather-74/24/weather-24-512.png" width="25px" title="Ozone">
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <!-- <td id="crdHumidity">{{weatherCardObj.crdHumidity}}</td>
+                                                <td id="crdPressure">{{weatherCardObj.crdPressure}}</td>
+                                                <td id="crdWindSpeed">{{weatherCardObj.crdWindSpeed}}</td> -->
+                                                <td id="crdHumidity">0.53</td>
+                                                <td id="crdPressure">1003.2</td>
+                                                <td id="crdWindSpeed">3.61</td>
+                                      
+                                                <!-- <td id="crdVisibility">{{weatherCardObj.crdVisibility}}</td>
+                                                <td id="crdCloudCov">{{weatherCardObj.crdCloudCover}}</td>
+                                                <td id="crdOzone">{{weatherCardObj.crdOzone}}</td> -->
+                                                <td id="crdVisibility">4.181</td>
+                                                <td id="crdCloudCov">0.7</td>
+                                                <td id="crdOzone">279.1</td>
+                                              </tr>
+                                      </table>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
+                    </div> <!--row div end-->
+                </tab>
+                <tab tabTitle="Hourly" (click) = "updateHourlyChart()">
+                  <div class="row">
+                       <select class="custom-select" [(ngModel)]="hourlyChartType" (change)="this.updateHourlyChart()">
+                         <option value="Temperature">Temperature</option>
+                         <option value="Pressure">Pressure</option>
+                         <option value="Humidity">Humidity</option>
+                         <option value="Ozone">Ozone</option>
+                         <option value="Visibility">Visibility</option>
+                         <option value="Wind Speed">Wind Speed</option>
+                       </select>
+                  </div>
+                  <div>
+                    <div style="display: block">
+                      <canvas baseChart
+                              [datasets]="hourChartData"
+                              [labels]="hourChartLabels"
+                              [options]="hourChartOptions"
+                              [legend]="hourChartLegend"
+                              [chartType]="hourChartType">
+                      </canvas>
+                    </div>
+                  </div>
+                </tab>
+                <tab tabTitle="Weekly" (click) = "dailygraph()">
+                    <!-- <div>
+                        <div style="display: block">
+                          <canvas baseChart
+                                  [datasets]="weekChartData"
+                                  [labels]="weekChartLabels"
+                                  [options]="weekChartOptions"
+                                  [legend]="weekChartLegend"
+                                  [chartType]="weekChartType">
+                          </canvas>
+                        </div>
+                      </div> -->
+                  
+                      <div id="chartContainer" style="height: 300px; width: 100%;" data-toggle="modal" data-target="#myModal"></div>
+
+                </tab>
+            </tabs-holder>
+            <div class="col-md-1 col-sm-1" style="margin-left:-10%">
+              <div class="row table-responsive">
+                <table class="table" style="table-layout: fixed;">
+                  <tr><td (click)= "this.favoritesStarClicked()" style="cursor: pointer;">
+                     <i class="material-icons" style=" line-height: 2; color:gold" *ngIf="favIcon=='gold'">star</i>
+                     <i class="material-icons" style=" line-height: 2;" *ngIf="favIcon=='black'">star_border</i>
+                  </td><td>
+                    <a class="twitter-share-button" href="{{twitterText}}" id="twitter" target="_blank">
+                      <img src="http://csci571.com/hw/hw8/Images/Twitter.png" style="height: 20px;">
+                    </a>
+                  </td>
+              </tr>
+          </table>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-7 col-sm-7 text-center" id="tabsContainer"  *ngIf="this.sectionShow=='favorites'">
+      <div class="table-responsive" *ngIf="this.favList.length > 0">
+        <table class="table table-striped">
+          <tbody>
+          <tr style="font-weight: bold;">
+            <td>#</td>
+            <td>Image</td>
+            <td>City</td>
+            <td>State</td>
+            <td>Wish List</td>
+          </tr>
+          <tr *ngFor= "let fav of this.favList; let i = index">
+            <td>{{i + 1}}</td>
+            <td><img class="img-responsive tblImg" src="{{fav.sealLink}}" style="height: 5%; width: inherit;" ></td>
+            <td style="cursor: pointer;"><a (click) = "fetchClickedCity(fav)">{{fav.city}}</a></td>
+            <td>{{fav.state}}</td>
+            <td  (click) = "deleteFavorite(fav.city, fav.state)" style="cursor: pointer;"><div class="iconDiv"><i class="material-icons">delete</i></div></td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+      <div *ngIf="this.favList.length == 0" class="alert alert-warning">No Favorites have been added</div>
+    </div>   
+</div>
+
+<div data-toggle="modal" data-target="#myModal" id="modalButton" style="display: none;">Open Modal</div>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{this.modalElement.modalDate}}</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-6 col-sm-6">
+                <p style="font-size:30px">{{this.modalElement.modalCity}}</p>
+                <p style="font-size:50px">{{this.modalElement.modalTemperature}}  <sup style="font-size:30px; color:black">&deg;</sup>
+                  <span>F</span></p>
+                <p style="font-size:20px">{{this.modalElement.modalSummary}}</p>
+              </div>
+              <div class="col-md-6 col-sm-6" style="margin-top: 10%">
+                  <img src="{{this.modalElement.modalIcon}}" style="height:100px;">
+              </div>
+        </div>
+        <hr style="border-color:#92c3e2">
+        <div class="row">
+          <div class="col-md-6 col-sm-6"></div>
+          <div class="col-md-6 col-sm-6">
+            <table style="table-layout: fixed; text-align: left;">
+              <tr>
+                <td>Percipitation : {{this.modalElement.modalPrecipitation}}</td>
+              </tr>
+              <tr>
+                  <td>Chance of Rain: {{this.modalElement.modalChanceOfRain}}%</td>
+                </tr>
+                <tr>
+                    <td>Wind Speed : {{this.modalElement.modalWindSpeed}} mph</td>
+                  </tr>
+                  <tr>
+                      <td>Humidity : {{this.modalElement.modalHumidity}}%</td>
+                    </tr>
+                    <tr>
+                        <td>Visibility : {{this.modalElement.modalVisibility}}</td>
+                      </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
